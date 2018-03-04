@@ -1,5 +1,7 @@
 package com.example.ladis.flatdice;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,19 +46,19 @@ public class MainActivity extends AppCompatActivity {
                 if(Math.abs(deltax)>MIN_DISTANCE)
                 {
                     if(x2>x1){
-                        changeFragment("left");
+                        changeFragment("toLeft");
                     }
                     else{
-                        changeFragment("rigth");
+                        changeFragment("toRigth");
                     }
                 }
                 else if(Math.abs(deltay)>MIN_DISTANCE)
                 {
                     if(y2>y1){
-                        changeFragment("top");
+                        changeFragment("toTop");
                     }
                     else{
-                        changeFragment("bot");
+                        changeFragment("toBot");
                     }
                 }
                 break;
@@ -65,6 +67,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeFragment(String direction){
-
+        if(findViewById(R.id.fragment)!=null){
+            FragmentManager fm = getFragmentManager();
+            Fragment nextFragment= new FragmentDice();
+            FragmentTransaction ft=fm.beginTransaction();
+            switch (direction){
+                case "toLeft":
+                    ft.setCustomAnimations(R.animator.from_left,R.animator.to_rigth);
+                    break;
+                case "toRigth":
+                    ft.setCustomAnimations(R.animator.from_rigth,R.animator.to_left);
+                    break;
+                case "toTop":
+                    ft.setCustomAnimations(R.animator.from_bot,R.animator.to_top);
+                    nextFragment= new FragmentCoin();
+                    break;
+                case "toBot":
+                    ft.setCustomAnimations(R.animator.from_top,R.animator.to_bot);
+                    break;
+            }
+            ft.replace(R.id.fragment,nextFragment);
+            ft.commit();
+        }
     }
 }

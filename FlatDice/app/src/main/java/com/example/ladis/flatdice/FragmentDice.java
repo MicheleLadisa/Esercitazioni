@@ -14,7 +14,7 @@ import java.util.Random;
  */
 
 public class FragmentDice  extends Fragment{
-     @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
          Random r=new Random();
          View v=inflater.inflate(R.layout.dicefragment, container, false);
@@ -25,19 +25,19 @@ public class FragmentDice  extends Fragment{
                  iv.setImageResource(R.drawable.dice1);
                  break;
              case 2:
-                 iv.setImageResource(R.drawable.dice1);
+                 iv.setImageResource(R.drawable.dice2);
                  break;
              case 3:
-                 iv.setImageResource(R.drawable.dice1);
+                 iv.setImageResource(R.drawable.dice3);
                  break;
              case 4:
-                 iv.setImageResource(R.drawable.dice1);
+                 iv.setImageResource(R.drawable.dice4);
                  break;
              case 5:
-                 iv.setImageResource(R.drawable.dice1);
+                 iv.setImageResource(R.drawable.dice5);
                  break;
              case 6:
-                 iv.setImageResource(R.drawable.dice1);
+                 iv.setImageResource(R.drawable.dice6);
                  break;
          }
          return v;
