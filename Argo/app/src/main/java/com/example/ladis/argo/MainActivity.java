@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
         mService.getPojo().enqueue(new Callback<PojoEvent>() {
             @Override
             public void onResponse(Call<PojoEvent> call, Response<PojoEvent> response) {
-                if(response.isSuccessful()) {
                     String s = response.toString();
                     Toast.makeText(MainActivity.this,s,Toast.LENGTH_SHORT).show();
-                }
+
             }
 
             @Override
