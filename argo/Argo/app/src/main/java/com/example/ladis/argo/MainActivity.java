@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getUtenti(){
-        mService.getPojo().enqueue(new Callback<PojoEvent>() {
+        mService.getPojoEventi().enqueue(new Callback<PojoEvent>() {
             @Override
             public void onResponse(Call<PojoEvent> call, Response<PojoEvent> response) {
                     String s = response.toString();

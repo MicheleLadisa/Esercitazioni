@@ -7,10 +7,12 @@ import retrofit2.http.GET;
 
 interface RFService {
 
-    String BASE_URL = "http://192.168.1.6:8080/Progetto/";
+    String BASE_URL = "http://192.168.10.109:8080/Progetto/";
 
-    @GET("Utenti")
-    Call<PojoEvent> getPojo(); //get the PojoEvent object
+    @GET("Utenti name=fdarfaga pass=fadfa")
+    Call<PojoEvent> getPojoUtenti(); //get the PojoEvent object
+    @GET("Eventi")
+    Call<PojoEvent> getPojoEventi();
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
