@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.view.Gravity.TOP;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
@@ -30,12 +32,17 @@ public class MainActivity extends AppCompatActivity {
     Button btnDelete;
     Button btnChangePsw;
     RFService mService;
+    private User user=new User();
 
     protected void onCreate(Bundle savedInstanceState) {
         mService = RFService.retrofit.create(RFService.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Intent intent=getIntent();
+        user.setName(intent.getStringExtra("username"));
+        user.setPassword(intent.getStringExtra("psw"));
+
         scrollView=findViewById(R.id.scrollViewll);
         btnDelete=findViewById(R.id.delete_account);
         btnChangePsw=findViewById(R.id.change_password);
@@ -59,27 +66,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteAccount(){
-
-    }
-
-    public void getEventi(){
-        mService.getEventi().enqueue(new Callback<Eventi>()
-        {
-            private ArrayList<Evento> eventi=new ArrayList<>();
+        Toast toast=Toast.makeText(this,"delete account",Toast.LENGTH_LONG);
+        toast.show();
+        toast.setText("error");
+        mService.deleteAccount(user.getName()).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Eventi> call, Response<Eventi> response) {
-                eventi=(ArrayList<Evento>)response.body().getEventi();
-                showEventi(eventi);
+            public void onResponse(Call<String> call, Response<String> response) {
             }
 
             @Override
-            public void onFailure(Call<Eventi> call, Throwable t) {
-
+            public void onFailure(Call<String> call, Throwable t) {
+                toast.show();
             }
         });
     }
 
-    public void showEventi(ArrayList<Evento> eventi)
+    public void getEventi(){
+        Toast toast=Toast.makeText(this,"Error",Toast.LENGTH_LONG);
+        mService.getEventi().enqueue(new Callback<Evento[]>() {
+            @Override
+            public void onResponse(Call<Evento[]> call, Response<Evento[]> response) {
+                Evento[] eventi=response.body();
+                if(eventi!=null)
+                {
+                    showEventi(eventi);
+                }
+                else
+                    {
+                    toast.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Evento[]> call, Throwable t) {
+                toast.show();
+            }
+        });
+    }
+
+    public void showEventi(Evento[] eventi)
     {
         scrollView.removeAllViews();
         LinearLayout linearLayout = new LinearLayout(this);

@@ -8,7 +8,7 @@ var server = restify.createServer();
 var database;
 var ServerConfiguration ={
     Port:8080,
-    Ip:"192.168.1.2"
+    Ip:"192.168.43.156"
 }
 
 function ServerCallBack(err)
@@ -26,12 +26,12 @@ function MongoCallBack(err,db)
 
 function getEventi(req,res)
 {
-    res.header('content-type', 'json');
-    database.collection("Eventi").find({}).toArray(function(err,result)
+    console.log("getEventi")
+    database.collection("Eventi").find().toArray(function(err,result)
     {
         if(err) throw err;
-        console.log(result);
         res.send(result);
+        console.log("Sent eventi");
         res.end();
     })
 }
@@ -109,6 +109,22 @@ function Singup(req,res)
         });
 }
 
+function DeleteAccount(req,res)
+{
+    console.log("DeleteAccount");
+    var username=req.params
+    console.log(username);
+    res.send("Error");
+    /*database.collection("Utenti").remove({name:username},
+    function(err){
+        if(err){
+            var message="Error"
+            res.send(message);
+            console.log("Sent "+message);
+        }
+    })*/
+}
+
 server.use(restify.plugins.bodyParser());
 server.listen(ServerConfiguration.Port,ServerConfiguration.Ip,ServerCallBack)
 
@@ -116,3 +132,4 @@ MongoClient.connect("mongodb://localhost:27017/",MongoCallBack);
 server.get('/Eventi',getEventi)
 server.post('/Login',Login)
 server.post('/Singup',Singup)
+server.del('/DeleteAccount',DeleteAccount)

@@ -61,33 +61,35 @@ public class LoginActivity extends AppCompatActivity {
         user.setPassword(input_pass.getText().toString());
         if(!user.getName().isEmpty() || !user.getPassword().isEmpty())
         {
-            Toast notExist=Toast.makeText(this,"The user don't exist",Toast.LENGTH_LONG);
-            Toast WrongPassword=Toast.makeText(this,"Wrong Password",Toast.LENGTH_LONG);
-            Toast error=Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG);
-            Toast succes=Toast.makeText(this,"Login succes",Toast.LENGTH_LONG);
+            Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
 
             Intent intent=new Intent(this,MainActivity.class);
+            intent.putExtra("username",user.getName());
+            intent.putExtra("psw",user.getPassword());
+
             mService.login(user).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if(response.body().equals("LoginSucces"))
                     {
-                        succes.show();
                         startActivity(intent);
                     }
                     else if(response.body().equals("WrongPassword"))
                     {
-                        WrongPassword.show();
+                        toast.setText("Wrong Password");
+                        toast.show();
                     }
                     else if(response.body().equals("UserNotExist"))
                     {
-                        notExist.show();
+                        toast.setText("The user don't exist");
+                        toast.show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    error.show();
+                    toast.setText("Connection Error");
+                    toast.show();
                 }
             });
         }
@@ -100,29 +102,30 @@ public class LoginActivity extends AppCompatActivity {
             user.setName(input_name.getText().toString());
             user.setPassword(input_pass.getText().toString());
 
-            Toast error=Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG);
-            Toast succes=Toast.makeText(this,"Singup succes",Toast.LENGTH_LONG);
-            Toast alredyExist=Toast.makeText(this,"The user alredy exist",Toast.LENGTH_LONG);
+            Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
 
             Intent intent=new Intent(this,MainActivity.class);
+            intent.putExtra("username",user.getName());
+            intent.putExtra("psw",user.getPassword());
 
             mService.singup(user).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     if(response.body().equals("UserAddedSuccessfully"))
                     {
-                        succes.show();
                         startActivity(intent);
                     }
                     else if(response.body().equals("UserAlreadyExists"))
                     {
-                        alredyExist.show();
+                        toast.setText("The user alredy exist");
+                        toast.show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    error.show();
+                    toast.setText("Connection Error");
+                    toast.show();
                 }
             });
         }
