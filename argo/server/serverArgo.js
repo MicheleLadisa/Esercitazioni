@@ -112,17 +112,80 @@ function Singup(req,res)
 function DeleteAccount(req,res)
 {
     console.log("DeleteAccount");
-    var username=req.params
+    var username=req.params.name;
     console.log(username);
-    res.send("Error");
-    /*database.collection("Utenti").remove({name:username},
-    function(err){
+    database.collection("Utenti").findOne({name:username},
+    function(err,result){
         if(err){
             var message="Error"
             res.send(message);
             console.log("Sent "+message);
         }
-    })*/
+        else if(result)
+        {
+            database.collection("Utenti").removeOne({name:username},
+            function(err,result){
+                if(err)
+                {
+                    var message="Error"
+                    res.send(message);
+                    console.log("Sent "+message);
+                }
+                else if(result)
+                {
+                    var message="DeleteSucces";
+                    res.send(message);
+                    console.log("Sent "+message)
+                }
+            });
+        }
+        else
+        {
+            var message="Error"
+            res.send(message);
+            console.log("Sent "+message);
+        }
+    })
+}
+
+function ChagePassword(req,res)
+{
+    console.log("ChangePassword");
+    var username=req.body.name;
+    var psw=req.body.password;
+    database.collection("Utenti").findOne({name:username},
+    function(err,result){
+        if(err)
+        {
+            var message="Error"
+            res.send(message);
+            console.log("Sent "+message);
+        }
+        else if(result)
+        {
+            database.collection("Utenti").updateOne({name:username},{$set:{password:psw}},
+            function(err,result){
+                if(err)
+                {
+                    var message="Error"
+                    res.send(message);
+                    console.log("Sent "+message);
+                }
+                else if(result)
+                {
+                    var message="UpdateSucces"
+                    res.send(message);
+                    console.log("Sent "+message);
+                }
+            });
+        }
+        else
+        {
+            var message="Error"
+            res.send(message);
+            console.log("Sent "+message);
+        }
+    });
 }
 
 server.use(restify.plugins.bodyParser());
@@ -132,4 +195,5 @@ MongoClient.connect("mongodb://localhost:27017/",MongoCallBack);
 server.get('/Eventi',getEventi)
 server.post('/Login',Login)
 server.post('/Singup',Singup)
-server.del('/DeleteAccount',DeleteAccount)
+server.del('/DeleteAccount/:name',DeleteAccount)
+server.put('/ChangePassword',ChagePassword)

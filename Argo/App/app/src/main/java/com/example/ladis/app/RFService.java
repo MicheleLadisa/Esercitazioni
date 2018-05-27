@@ -1,18 +1,14 @@
-package com.example.ladis.argo;
+package com.example.ladis.app;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 interface RFService {
-
-    String BASE_URL = "http://192.168.43.156:8080/ ";
 
     @GET("Eventi")
     Call<Evento[]> getEventi();
@@ -26,8 +22,7 @@ interface RFService {
     @DELETE("DeleteAccount/{name}")
     Call<String> deleteAccount(@Path("name") String name);
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+    @PUT("ChangePassword")
+    Call<String> changePassword(@Body User user);
+
 }

@@ -1,7 +1,7 @@
-package com.example.ladis.argo;
+package com.example.ladis.app;
 
 import com.google.gson.annotations.Expose;
-        import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName;
 
 public class User {
 

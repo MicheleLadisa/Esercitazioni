@@ -1,4 +1,4 @@
-package com.example.ladis.argo;
+package com.example.ladis.app;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mService = RFService.retrofit.create(RFService.class);
+        mService = RetrofitClient.GetClient().create(RFService.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loginsingup);
         input_name=findViewById(R.id.input_name);
@@ -61,9 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         user.setPassword(input_pass.getText().toString());
         if(!user.getName().isEmpty() || !user.getPassword().isEmpty())
         {
-            Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
+            final Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
 
-            Intent intent=new Intent(this,MainActivity.class);
+            final Intent intent=new Intent(this,MainActivity.class);
             intent.putExtra("username",user.getName());
             intent.putExtra("psw",user.getPassword());
 
@@ -102,9 +100,9 @@ public class LoginActivity extends AppCompatActivity {
             user.setName(input_name.getText().toString());
             user.setPassword(input_pass.getText().toString());
 
-            Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
+            final Toast toast=Toast.makeText(this,"",Toast.LENGTH_LONG);
 
-            Intent intent=new Intent(this,MainActivity.class);
+            final Intent intent=new Intent(this,MainActivity.class);
             intent.putExtra("username",user.getName());
             intent.putExtra("psw",user.getPassword());
 

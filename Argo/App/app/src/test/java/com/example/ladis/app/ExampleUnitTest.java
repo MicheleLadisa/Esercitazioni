@@ -1,4 +1,4 @@
-package com.example.ladis.argo;
+package com.example.ladis.app;
 
 import org.junit.Test;
 
